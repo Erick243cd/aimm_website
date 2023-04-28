@@ -28,7 +28,8 @@
     <link rel="stylesheet" href="<?= site_url() ?>public/assets/vendors/animate/custom-animate.css"/>
     <link rel="stylesheet" href="<?= site_url() ?>public/assets/vendors/fontawesome/css/all.min.css"/>
     <link rel="stylesheet" href="<?= site_url() ?>public/assets/vendors/jarallax/jarallax.css"/>
-    <link rel="stylesheet" href="<?= site_url() ?>public/assets/vendors/jquery-magnific-popup/jquery.magnific-popup.css"/>
+    <link rel="stylesheet"
+          href="<?= site_url() ?>public/assets/vendors/jquery-magnific-popup/jquery.magnific-popup.css"/>
     <link rel="stylesheet" href="<?= site_url() ?>public/assets/vendors/nouislider/nouislider.min.css"/>
     <link rel="stylesheet" href="<?= site_url() ?>public/assets/vendors/nouislider/nouislider.pips.css"/>
     <link rel="stylesheet" href="<?= site_url() ?>public/assets/vendors/odometer/odometer.min.css"/>
@@ -66,7 +67,7 @@
                                     <span class="icon-call"></span>
                                 </div>
                                 <div class="text">
-                                    <p><a href="tel:5204654544">+5204654544</a></p>
+                                    <p><a href="tel:<?= $contacts->phone ?>"><?= $contacts->phone ?></a></p>
                                 </div>
                             </li>
                             <li>
@@ -74,7 +75,7 @@
                                     <span class="icon-envelope"></span>
                                 </div>
                                 <div class="text">
-                                    <p><a href="mailto:demo@example.com">demo@example.com</a></p>
+                                    <p><a href="mailto:<?= $contacts->email ?>"><?= $contacts->email ?></a></p>
                                 </div>
                             </li>
                             <li>
@@ -82,16 +83,21 @@
                                     <span class="icon-place"></span>
                                 </div>
                                 <div class="text">
-                                    <p>24/21, 2nd Rangpur, Sapla</p>
+                                    <p><?= character_limiter($contacts->address, 30) ?></p>
                                 </div>
                             </li>
                         </ul>
                     </div>
                     <div class="main-header__top-right">
                         <ul class="list-unstyled main-header__top-right-content">
-                            <li><a href="#">Login</a></li>
-                            <li><a href="#">Help You</a></li>
-                            <li><a href="#" class="search-toggler"> <i class="fa fa-search"></i> Search</a></li>
+                            <?php if (isset($user_data)): ?>
+                                <li><a onclick="return confirm('Etes-vous sûr de vous déconnecter ?')"
+                                       href="<?= site_url('logout') ?>">Logout</a></li>
+                                <li><a href="<?= site_url('dashboard') ?>">Dashboard</a></li>
+                            <?php else: ?>
+                                <li><a href="<?= site_url('login') ?>">Login</a></li>
+                            <?php endif; ?>
+                            <li><a href="#" class="search-toggler"> <i class="fa fa-search"></i> Recherche</a></li>
                         </ul>
                     </div>
                 </div>
@@ -102,69 +108,29 @@
                 <div class="main-menu-wrapper clearfix">
                     <div class="main-menu-wrapper__left">
                         <div class="main-menu-wrapper__logo">
-                            <a href="index.html"><img src="assets/images/resources/logo-1.png" alt=""></a>
+                            <a href="<?= $page == 'home' ? '#' : site_url() ?>"><img
+                                        src="<?= site_url() ?>public/assets/images/resources/logo-N.png" alt=""></a>
                         </div>
                     </div>
                     <div class="main-menu-wrapper__right">
                         <div class="main-menu-wrapper__main-menu">
                             <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
                             <ul class="main-menu__list">
-                                <li class="dropdown current">
-                                    <a href="index.html">Home</a>
-                                    <ul>
-                                        <li>
-                                            <a href="index.html">Home One</a>
-                                        </li>
-                                        <li><a href="index2.html">Home Two</a></li>
-                                        <li><a href="index3.html">Home Three</a></li>
-                                        <li class="dropdown">
-                                            <a href="#">Header Styles</a>
-                                            <ul>
-                                                <li><a href="index.html">Header One</a></li>
-                                                <li><a href="index2.html">Header Two</a></li>
-                                                <li><a href="index3.html">Header Three</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                <li class="<?= $page == 'home' ? "current" : "" ?>"><a
+                                            href="<?= $page == 'home' ? '#' : site_url() ?>">Accueil</a></li>
+                                <li class="<?= $page == 'about' ? "current" : "" ?>"><a
+                                            href="<?= $page == 'about' ? '#' : site_url('about') ?>">A propos de
+                                        nous</a></li>
+                                <li class="<?= $page == 'activities' ? "current" : "" ?>"><a
+                                            href="<?= $page == 'activities' ? '#' : site_url('activities') ?>">Activités</a>
                                 </li>
-                                <li><a href="about.html">About</a></li>
-                                <li class="dropdown">
-                                    <a href="#">Pages</a>
-                                    <ul>
-                                        <li><a href="team.html">Team</a></li>
-                                        <li><a href="team-details.html">Team Details</a></li>
-                                        <li><a href="projects.html">Project</a></li>
-                                        <li><a href="project-details.html">Project Details</a></li>
-                                        <li><a href="testimonials.html">Testimonial</a></li>
-                                        <li><a href="gallery.html">Gallery</a></li>
-                                        <li><a href="404.html">404 Error</a></li>
-                                    </ul>
+                                <li class="<?= $page == 'contact' ? "current" : "" ?>"><a
+                                            href="<?= $page == 'contact' ? '#' : site_url('contact') ?>">Contact</a>
                                 </li>
-                                <li class="dropdown">
-                                    <a href="#">Donation</a>
-                                    <ul>
-                                        <li><a href="donation.html">Donation</a></li>
-                                        <li><a href="donation-list.html">Donation List</a></li>
-                                        <li><a href="donation-details.html">Donation Details</a></li>
-                                        <li><a href="donate-now.html">Donate Now</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="events.html">Events</a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#">Blog</a>
-                                    <ul>
-                                        <li><a href="blog-v-1.html">Blog V-1</a></li>
-                                        <li><a href="blog-v-2.html">Blog V-2</a></li>
-                                        <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
-                                        <li><a href="blog-details.html">Blog Details</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </div>
-                        <a href="donate-now.html" class="thm-btn main-header__btn">Donate Now</a>
+                        <a href="<?= $page == 'donate' ? '#' : site_url('donate') ?>" class="thm-btn main-header__btn">FAITES-NOUS
+                            UN DON</a>
                     </div>
                 </div>
             </div>
@@ -176,8 +142,7 @@
     </div><!-- /.stricky-header -->
 
 
-
-    <?= $this->renderSection("content")?>
+    <?= $this->renderSection("content") ?>
 
     <!--Site Footer Start-->
     <footer class="site-footer-one">
@@ -185,14 +150,17 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
+                    <div class="col-xl-6 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
                         <div class="footer-widget__column footer-widget-one__about">
                             <div class="footer-widget-one__about-logo">
-                                <a href="index.html"><img src="assets/images/resources/footer-logo.png" alt=""></a>
+                                <a href="<?= $page == 'home' ? "#" : site_url() ?>"><img
+                                            src="<?= site_url() ?>public/assets/images/resources/logo-footer.png"
+                                            alt="<?= altData() ?>"></a>
                             </div>
                             <p class="footer-widget-one__about-text">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam iaculis lorem augue, at
-                                dapibus quam aliquet ex...
+                                Assistance Internationale Mont Morija A.I.M.M. en sigle est une ONG ayant comme Objectif
+                                de contribuer
+                                au développement de la population locale avec la participation des jeunes.
                             </p>
                             <ul class="list-unstyled footer-widget-one__list">
                                 <li>
@@ -200,7 +168,7 @@
                                         <span class="icon-place"></span>
                                     </div>
                                     <div class="text">
-                                        <p>13/A, Miranda Halim City.</p>
+                                        <p><?= $contacts->address ?></p>
                                     </div>
                                 </li>
                                 <li>
@@ -208,7 +176,7 @@
                                         <span class="icon-envelope"></span>
                                     </div>
                                     <div class="text">
-                                        <p><a href="mailto:demo@example.com">demo@example.com</a></p>
+                                        <p><a href="mailto:<?= $contacts->email ?>"><?= $contacts->email ?></a></p>
                                     </div>
                                 </li>
                                 <li>
@@ -216,175 +184,30 @@
                                         <span class="icon-call"></span>
                                     </div>
                                     <div class="text">
-                                        <p><a href="tel:09969569535">099 695 695 35</a></p>
+                                        <p><a href="tel:<?= $contacts->phone ?>"><?= $contacts->phone ?></a></p>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="200ms">
-                        <div class="footer-widget__column footer-widget-one__gallery clearfix">
-                            <h3 class="footer-widget-one__title">Gallery</h3>
-                            <ul class="footer-widget-one__gallery-list list-unstyled clearfix">
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-1.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-2.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-3.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-4.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-5.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-6.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-7.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-8.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__gallery-img">
-                                        <img src="assets/images/resources/footer-widget-one-gallery-9.jpg" alt="">
-                                        <a href="project-details.html"><span class="fa fa-link"></span></a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="300ms">
+                    <div class="col-xl-6 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="300ms">
                         <div class="footer-widget__column footer-widget-one__latest-works clearfix">
-                            <h3 class="footer-widget-one__title">Latest News</h3>
+                            <h3 class="footer-widget-one__title">Activités récentes</h3>
                             <ul class="footer-widget-one__latest-works-list list-unstyled clearfix">
-                                <li>
-                                    <div class="footer-widget-one__latest-works-content">
-                                        <h4 class="footer-widget-one__latest-works-title">
-                                            <a href="blog-details.html">Change your Life Through Education</a>
-                                        </h4>
-                                        <p class="footer-widget-one__latest-works-date">
-                                            July 29, 20222
-                                        </p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="footer-widget-one__latest-works-content">
-                                        <h4 class="footer-widget-one__latest-works-title">
-                                            <a href="blog-details.html">Donate your woolens this winter</a>
-                                        </h4>
-                                        <p class="footer-widget-one__latest-works-date">
-                                            July 29, 20222
-                                        </p>
-                                    </div>
-                                </li>
+                                <?php foreach ($posts as $post): ?>
+                                    <li>
+                                        <div class="footer-widget-one__latest-works-content">
+                                            <h4 class="footer-widget-one__latest-works-title">
+                                                <a href="<?= site_url('post-detail/' . $post->slug) ?>"><?= $post->title ?></a>
+                                            </h4>
+                                            <p class="footer-widget-one__latest-works-date">
+                                                <?= date('M d, Y', strtotime($post->updated_at)) ?>
+                                            </p>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms">
-                        <div class="footer-widget__column footer-widget-one__twitter-feed clearfix">
-                            <h3 class="footer-widget-one__title">Twitter Feed</h3>
-                            <div class="owl-carousel owl-theme thm-owl__carousel footer-widget-one__twitter-feed-content"
-                                 data-owl-options='{
-                                    "loop": true,
-                                    "autoplay": true,
-                                    "margin": 30,
-                                    "nav": false,
-                                    "dots": true,
-                                    "smartSpeed": 500,
-                                    "autoplayTimeout": 10000,
-                                    "navText": ["<span class=\"fa fa-angle-left\"></span>","<span class=\"fa fa-angle-right\"></span>"],
-                                    "responsive": {
-                                        "0": {
-                                            "items": 1
-                                        },
-                                        "768": {
-                                            "items": 1
-                                        },
-                                        "991": {
-                                            "items": 1
-                                        },
-                                        "1200": {
-                                            "items": 1
-                                        }
-                                    }
-                                }'>
-                                <div class="footer-widget-one__twitter-feed-single">
-                                    <p class="footer-widget-one__twitter-feed-text">Lorem ipsum is simply free text
-                                        dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor
-                                        incididunt <a href="#">http://t.twitter.com</a></p>
-                                    <div class="footer-widget-one__twitter-feed-bottom">
-                                        <div class="footer-widget-one__twitter-feed-icon">
-                                            <span class="fab fa-twitter"></span>
-                                        </div>
-                                        <div class="footer-widget-one__twitter-feed-details">
-                                            <h5 class="footer-widget-one__twitter-feed-name">John Smith
-                                                <span>@unicktheme</span></h5>
-                                            <p class="footer-widget-one__twitter-feed-time">18 Hours Ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer-widget-one__twitter-feed-single">
-                                    <p class="footer-widget-one__twitter-feed-text">Lorem ipsum is simply free text
-                                        dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor
-                                        incididunt <a href="#">http://t.twitter.com</a></p>
-                                    <div class="footer-widget-one__twitter-feed-bottom">
-                                        <div class="footer-widget-one__twitter-feed-icon">
-                                            <span class="fab fa-twitter"></span>
-                                        </div>
-                                        <div class="footer-widget-one__twitter-feed-details">
-                                            <h5 class="footer-widget-one__twitter-feed-name">Kavin Smith
-                                                <span>@unicktheme</span></h5>
-                                            <p class="footer-widget-one__twitter-feed-time">18 Hours Ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer-widget-one__twitter-feed-single">
-                                    <p class="footer-widget-one__twitter-feed-text">Lorem ipsum is simply free text
-                                        dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor
-                                        incididunt <a href="#">http://t.twitter.com</a></p>
-                                    <div class="footer-widget-one__twitter-feed-bottom">
-                                        <div class="footer-widget-one__twitter-feed-icon">
-                                            <span class="fab fa-twitter"></span>
-                                        </div>
-                                        <div class="footer-widget-one__twitter-feed-details">
-                                            <h5 class="footer-widget-one__twitter-feed-name">Sara Albart
-                                                <span>@unicktheme</span></h5>
-                                            <p class="footer-widget-one__twitter-feed-time">18 Hours Ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -393,8 +216,8 @@
         <div class="site-footer__bottom">
             <div class="container">
                 <div class="site-footer__bottom-inner">
-                    <p class="site-footer__bottom-text">© 2022 Copyright by <a
-                                href="https://themeforest.net/user/unicktheme">unicktheme</a></p>
+                    <p class="site-footer__bottom-text">© <?= date('Y') ?> AIMM, Tous droits réservés, by <a
+                                href="https://afrinewsoft.com" target="_blank">Afrinewsoft</a></p>
                 </div>
             </div>
         </div>
@@ -412,8 +235,9 @@
         <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
 
         <div class="logo-box">
-            <a href="index.html" aria-label="logo image"><img src="assets/images/resources/footer-logo.png"
-                                                              width="155" alt=""/></a>
+            <a href="<?= $page == 'home' ? "#" : site_url() ?>" aria-label="<?= altData() ?>">
+                <img src="<?= site_url() ?>public/assets/images/resources/logo-N.png" width="155"
+                     alt="<?= altData() ?>"/></a>
         </div>
         <!-- /.logo-box -->
         <div class="mobile-nav__container"></div>
@@ -422,18 +246,18 @@
         <ul class="mobile-nav__contact list-unstyled">
             <li>
                 <i class="fa fa-envelope"></i>
-                <a href="mailto:needhelp@sopot.com">needhelp@sopot.com</a>
+                <a href="mailto:<?= $contacts->email ?>"><?= $contacts->email ?></a>
             </li>
             <li>
                 <i class="fa fa-phone-alt"></i>
-                <a href="tel:666-888-0000">666 888 0000</a>
+                <a href="tel:<?= $contacts->phone ?>"><?= $contacts->phone ?></a>
             </li>
         </ul><!-- /.mobile-nav__contact -->
         <div class="mobile-nav__top">
             <div class="mobile-nav__social">
                 <a href="#" class="fab fa-twitter"></a>
                 <a href="#" class="fab fa-facebook-square"></a>
-                <a href="#" class="fab fa-pinterest-p"></a>
+                <a href="#" class="fab fa-linkedin"></a>
                 <a href="#" class="fab fa-instagram"></a>
             </div><!-- /.mobile-nav__social -->
         </div><!-- /.mobile-nav__top -->
@@ -446,9 +270,9 @@
     <div class="search-popup__overlay search-toggler"></div>
     <!-- /.search-popup__overlay -->
     <div class="search-popup__content">
-        <form action="#">
-            <label for="search" class="sr-only">search here</label><!-- /.sr-only -->
-            <input type="text" id="search" placeholder="Search Here..."/>
+        <form action="<?= site_url('search-activities')?>"method="post">
+            <label for="search" class="sr-only">Rechercher ici</label><!-- /.sr-only -->
+            <input type="text" id="search" required name="key" placeholder="Rechercher ici..."/>
             <button type="submit" aria-label="search submit" class="thm-btn">
                 <i class="icon-search-interface-symbol"></i>
             </button>
